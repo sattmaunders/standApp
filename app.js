@@ -43,7 +43,8 @@ app.get('/unlock/nfc',function(request,response){
 });
 
 app.get('/status',function(request,response){
-	response.json({unlocked: global.unlocked});
+	response.json({unlocked: global.unlocked,
+				   steps: global.steps});
 });
 
 app.get('/lock/timeout',function(request,response){

@@ -10,6 +10,9 @@ var users = require('./routes/user');
 
 var app = express();
 
+//Global vars
+global.unlocked = true;
+
 // view engine setup
 
 app.set('views', path.join(__dirname, 'views'));
@@ -28,7 +31,17 @@ app.use('/', routes);
 app.use('/users', users);
 
 app.get('/unlock/nfc',function(request,response){
+	unlocked = true;
 	response.send('Time to Unlock it.');
+});
+
+app.get('/status',function(request,response){
+	response.send(unlocked);
+});
+
+app.get('/lock/timeout',function(request,response){
+	unlocked = false;
+	response.send('Timeout, Lock the screen');
 });
 
 /// catch 404 and forward to error handler

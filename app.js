@@ -13,7 +13,8 @@ var app = express();
 //Global vars
 global.unlocked = true;
 global.steps = 0;
-
+global.away = false;
+global.oldStepsStamp = 0;
 // view engine setup
 
 app.set('views', path.join(__dirname, 'views'));
@@ -40,11 +41,14 @@ app.use('/users', users);
 app.get('/unlock/nfc',function(request,response){
 	unlocked = true;
 	response.send('Time to Unlock it.');
+	oldStepsStamp = steps;
+	global.away = false;
 });
 
 app.get('/status',function(request,response){
 	response.json({unlocked: global.unlocked,
-				   steps: global.steps});
+				   steps: global.steps,
+				   away: global.away});
 });
 
 app.get('/lock/timeout',function(request,response){
@@ -53,8 +57,13 @@ app.get('/lock/timeout',function(request,response){
 });
 
 app.get('/steps/:steps', function(request,response){
-	global.steps = request.param('steps');
+	global.steps = parseInt(request.param('steps'));
 	response.json({steps: global.steps});
+	if(((steps - oldStepsStamp) > 10) && unlocked){
+		global.away = true;
+	} else{
+		global.away = false;
+	}
 });
 
 /// catch 404 and forward to error handler

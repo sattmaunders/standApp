@@ -53,7 +53,8 @@ app.get('/status',function(request,response){
 	response.json({unlocked: global.unlocked,
 				   steps: global.steps,
 				   away: global.away,
-				   readyToUnlock: global.readyToUnlock});
+				   readyToUnlock: global.readyToUnlock,
+				   currentSteps: steps - global.oldStepsStamp});
 });
 
 app.get('/lock/timeout',function(request,response){

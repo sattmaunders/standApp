@@ -71,7 +71,9 @@ app.get('/lock/away',function(request,response){
 
 app.get('/steps/:steps', function(request,response){
 	global.steps = parseInt(request.param('steps'));
-	
+	if(global.oldStepsStamp == 0){
+		global.oldStepsStamp = global.steps;
+	}
 	if(((steps - global.oldStepsStamp) >= 10) && unlocked){
 		global.away = true;
 	} else{

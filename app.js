@@ -15,6 +15,9 @@ global.unlocked = true;
 global.steps = 0;
 global.away = false;
 global.oldStepsStamp = 0;
+global.oldStepsExerciseStamp = 0;
+global.readyToUnlock = false;
+global.targetStepsToWalk = 50;
 // view engine setup
 
 app.set('views', path.join(__dirname, 'views'));
@@ -40,20 +43,29 @@ app.use('/users', users);
 
 app.get('/unlock/nfc',function(request,response){
 	unlocked = true;
-	response.send('Time to Unlock it.');
 	oldStepsStamp = steps;
 	global.away = false;
+	response.send('Time to Unlock it.');
+	
 });
 
 app.get('/status',function(request,response){
 	response.json({unlocked: global.unlocked,
 				   steps: global.steps,
-				   away: global.away});
+				   away: global.away,
+				   readyToUnlock: global.readyToUnlock});
 });
 
 app.get('/lock/timeout',function(request,response){
 	unlocked = false;
+	global.readyToUnlock = false;
+	global.oldStepsExerciseStamp = global.steps;
 	response.send('Timeout, Lock the screen');
+});
+
+app.get('/lock/away',function(request,response){
+	unlocked = false;
+	response.send('User Away, Lock the screen.');
 });
 
 app.get('/steps/:steps', function(request,response){
@@ -63,6 +75,11 @@ app.get('/steps/:steps', function(request,response){
 		global.away = true;
 	} else{
 		global.away = false;
+	}
+	if(((steps - global.oldStepsExerciseStamp) > global.targetStepsToWalk) && !unlocked ){
+		global.readyToUnlock = true;
+	} else{
+		global.readyToUnlock = false;
 	}
 });
 

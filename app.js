@@ -12,6 +12,7 @@ var app = express();
 
 //Global vars
 global.unlocked = true;
+global.steps = 0;
 
 // view engine setup
 
@@ -48,6 +49,11 @@ app.get('/status',function(request,response){
 app.get('/lock/timeout',function(request,response){
 	unlocked = false;
 	response.send('Timeout, Lock the screen');
+});
+
+app.get('/steps/:steps', function(request,response){
+	global.steps = request.param('steps');
+	response.json({steps: global.steps});
 });
 
 /// catch 404 and forward to error handler

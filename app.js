@@ -15,7 +15,6 @@ global.unlocked = true;
 global.steps = 0;
 global.away = false;
 global.oldStepsStamp = 0;
-global.oldStepsExerciseStamp = 0;
 global.readyToUnlock = false;
 global.targetStepsToWalk = 50;
 // view engine setup
@@ -43,8 +42,9 @@ app.use('/users', users);
 
 app.get('/unlock/nfc',function(request,response){
 	unlocked = true;
-	oldStepsStamp = steps;
+	global.oldStepsStamp = global.steps;
 	global.away = false;
+	global.readyToUnlock = false;
 	response.send('Time to Unlock it.');
 	
 });
@@ -59,7 +59,7 @@ app.get('/status',function(request,response){
 app.get('/lock/timeout',function(request,response){
 	unlocked = false;
 	global.readyToUnlock = false;
-	global.oldStepsExerciseStamp = global.steps;
+	global.oldStepsStamp = global.steps;
 	response.send('Timeout, Lock the screen');
 });
 
@@ -70,17 +70,18 @@ app.get('/lock/away',function(request,response){
 
 app.get('/steps/:steps', function(request,response){
 	global.steps = parseInt(request.param('steps'));
-	response.json({steps: global.steps});
-	if(((steps - oldStepsStamp) > 10) && unlocked){
+	
+	if(((steps - global.oldStepsStamp) >= 10) && unlocked){
 		global.away = true;
 	} else{
 		global.away = false;
 	}
-	if(((steps - global.oldStepsExerciseStamp) > global.targetStepsToWalk) && !unlocked ){
+	if(((steps - global.oldStepsStamp) >= global.targetStepsToWalk) && !unlocked ){
 		global.readyToUnlock = true;
 	} else{
 		global.readyToUnlock = false;
 	}
+	response.json({steps: global.steps});
 });
 
 /// catch 404 and forward to error handler

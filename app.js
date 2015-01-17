@@ -61,7 +61,7 @@ app.get('/lock/timeout',function(request,response){
 	unlocked = false;
 	global.readyToUnlock = false;
 	global.oldStepsStamp = global.steps;
-	response.send('Timeout, Lock the screen');
+	response.send('Timeout , Lock the screen');
 });
 
 app.get('/lock/away',function(request,response){

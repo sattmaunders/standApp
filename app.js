@@ -40,52 +40,7 @@ app.use(function(req, res, next) {
 app.use('/', routes);
 app.use('/users', users);
 
-app.get('/unlock/nfc',function(request,response){
-	unlocked = true;
-	global.oldStepsStamp = global.steps;
-	global.away = false;
-	global.readyToUnlock = false;
-	response.send('Time to Unlock it.');
-	
-});
 
-app.get('/status',function(request,response){
-	response.json({unlocked: global.unlocked,
-				   steps: global.steps,
-				   away: global.away,
-				   readyToUnlock: global.readyToUnlock,
-				   currentSteps: steps - global.oldStepsStamp});
-});
-
-app.get('/lock/timeout',function(request,response){
-	unlocked = false;
-	global.readyToUnlock = false;
-	global.oldStepsStamp = global.steps;
-	response.send('Timeout , Lock the screen');
-});
-
-app.get('/lock/away',function(request,response){
-	unlocked = false;
-	response.send('User Away, Lock the screen.');
-});
-
-app.get('/steps/:steps', function(request,response){
-	global.steps = parseInt(request.param('steps'));
-	if(global.oldStepsStamp == 0){
-		global.oldStepsStamp = global.steps;
-	}
-	if(((steps - global.oldStepsStamp) >= 10) && unlocked){
-		global.away = true;
-	} else{
-		global.away = false;
-	}
-	if(((steps - global.oldStepsStamp) >= global.targetStepsToWalk) && !unlocked ){
-		global.readyToUnlock = true;
-	} else{
-		global.readyToUnlock = false;
-	}
-	response.json({steps: global.steps});
-});
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -121,6 +76,38 @@ app.use(function(err, req, res, next) {
         title: 'error'
     });
 });
+
+
+
+var gcm = require('node-gcm');
+
+var message = new gcm.Message({
+    collapseKey: 'demo',
+    delayWhileIdle: true,
+    timeToLive: 3,
+    data: {
+        key1: 'message1',
+        key2: 'message2'
+    }
+});
+
+
+message.collapseKey = 'demo';
+message.delayWhileIdle = true;
+message.timeToLive = 3;
+message.dryRun = true;
+
+var sender = new gcm.Sender('AIzaSyAGYXOTzzZRQLzXKt9OD12WqU3VUhhtFEQ');
+
+var registrationIds = [];
+registrationIds.push('regId1');
+registrationIds.push('regId2');
+
+sender.sendNoRetry(message, registrationIds, function(err, result) {
+  if(err) console.error(err);
+  else    console.log(result);
+});
+
 
 
 module.exports = app;

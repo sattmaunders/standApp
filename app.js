@@ -40,18 +40,21 @@ app.use(function(req, res, next) {
 app.use('/', routes);
 app.use('/users', users);
 
-//app.('/gcm/')
-
-
-app.get('/gcm/startWorkout',function(request,response){
-  unlocked = true;
-  global.oldStepsStamp = global.steps;
-  global.away = false;
-	global.readyToUnlock = false;
-	response.send('Time to Unlock it.');	
+app.post('/register',function(request,response){
+  // get email, and add to notification
+  response.send('register');
 });
   
+app.post('/workout/start', function(request, response) {
+  // using email send to gsm to broadcast 
+  response.send('start workout');
+})
   
+app.post('/workout/end', function(request, response) {
+  // using email send to gsm to broadcast 
+  response.send('end workout');
+})
+
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
@@ -96,7 +99,7 @@ var message = new gcm.Message({
     delayWhileIdle: true,
     timeToLive: 3,
     data: {
-        key1: 'message1',
+        'test': 'message1',
         key2: 'message2'
     }
 });
@@ -105,9 +108,9 @@ var message = new gcm.Message({
 message.collapseKey = 'demo';
 message.delayWhileIdle = true;
 message.timeToLive = 3;
-message.dryRun = true;
+message.dryRun = false;
 
-var sender = new gcm.Sender('AIzaSyAGYXOTzzZRQLzXKt9OD12WqU3VUhhtFEQ');
+var sender = new gcm.Sender('AIzaSyDSdZlLQhrXQCM6bpLoY-XPCEIXLcg88Wc');
 
 var registrationIds = [];
 registrationIds.push('APA91bG2uIbWZxkxrX-OFJBvEOFaozx694mplnzcVl7HE4RHo6cmlRbdjF3daJAgSMDtCVAlGQEdGBcjPC-J6tb-7lfaT9H2vvD48c2-88kAHdqXpEh5e4aRjsdvjhB7UOylnNtXIzXIrlAEI5sCT3a-JlNNwJw36w');

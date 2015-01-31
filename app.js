@@ -40,8 +40,18 @@ app.use(function(req, res, next) {
 app.use('/', routes);
 app.use('/users', users);
 
+//app.('/gcm/')
 
 
+app.get('/gcm/startWorkout',function(request,response){
+  unlocked = true;
+  global.oldStepsStamp = global.steps;
+  global.away = false;
+	global.readyToUnlock = false;
+	response.send('Time to Unlock it.');	
+});
+  
+  
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
@@ -100,8 +110,8 @@ message.dryRun = true;
 var sender = new gcm.Sender('AIzaSyAGYXOTzzZRQLzXKt9OD12WqU3VUhhtFEQ');
 
 var registrationIds = [];
-registrationIds.push('regId1');
-registrationIds.push('regId2');
+registrationIds.push('APA91bG2uIbWZxkxrX-OFJBvEOFaozx694mplnzcVl7HE4RHo6cmlRbdjF3daJAgSMDtCVAlGQEdGBcjPC-J6tb-7lfaT9H2vvD48c2-88kAHdqXpEh5e4aRjsdvjhB7UOylnNtXIzXIrlAEI5sCT3a-JlNNwJw36w');
+registrationIds.push('APA91bHSPJrS3KZ0GANX1-sqb4V9EV7V-v1DkMV2_I_G7OZIfJD3gqxY_dwsvPVk6wH0wtXMxVKiAyRMJD7JcVMc5PR6BPIPXYiYF8hfKFe2wDC_Klf_5dn_PdPLjJQQ9X_KBroqpOoE5Hr3o1-ezzUB2JMCCc4tjA');
 
 sender.sendNoRetry(message, registrationIds, function(err, result) {
   if(err) console.error(err);

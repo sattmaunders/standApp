@@ -1,9 +1,14 @@
 var express = require('express');
 var router = express.Router();
+var request = require('request');
 
 /** GCM Config **/
 var gcm = require('node-gcm');
-var sender = new gcm.Sender('AIzaSyDSdZlLQhrXQCM6bpLoY-XPCEIXLcg88Wc');
+var apiKey = 'AIzaSyDSdZlLQhrXQCM6bpLoY-XPCEIXLcg88Wc';
+var projectId = '665143645608';
+var uri = 'https://android.googleapis.com/gcm/notification';
+
+var sender = new gcm.Sender(apiKey);
 var registrationIds = [];
 registrationIds.push('APA91bG2uIbWZxkxrX-OFJBvEOFaozx694mplnzcVl7HE4RHo6cmlRbdjF3daJAgSMDtCVAlGQEdGBcjPC-J6tb-7lfaT9H2vvD48c2-88kAHdqXpEh5e4aRjsdvjhB7UOylnNtXIzXIrlAEI5sCT3a-JlNNwJw36w');
 registrationIds.push('APA91bHSPJrS3KZ0GANX1-sqb4V9EV7V-v1DkMV2_I_G7OZIfJD3gqxY_dwsvPVk6wH0wtXMxVKiAyRMJD7JcVMc5PR6BPIPXYiYF8hfKFe2wDC_Klf_5dn_PdPLjJQQ9X_KBroqpOoE5Hr3o1-ezzUB2JMCCc4tjA');
@@ -34,7 +39,36 @@ router.get('/gcmtest/:key/:content', function(req, res) {
 
 /** GCM **/
 router.post('/register', function(req, res) {
-  // FIXME: to be implemented
+  var keyName = 'standapp-' + req.body.userId;
+
+  request.post({
+    uri: uri,
+
+    request: {
+      "operation": "create",
+      "notification_key_name": keyName,
+      "notification_key": "aUniqueKey",
+      "registration_ids": [req.body.regId]
+    },
+
+    headers: {
+      'content-type': "application/json",
+      'project_id' : projectId,
+      'Authorization' : 'key=' + apiKey
+    }
+
+
+  }, function(err, response, body) {
+    var result = {
+      'err': err,
+      'response': response,
+      'body': body
+    };
+
+    console.log('result', result);
+
+    res.send(result);
+  });
 });
 
 /* GET home page. */

@@ -90,37 +90,4 @@ app.use(function(err, req, res, next) {
     });
 });
 
-
-
-var gcm = require('node-gcm');
-
-var message = new gcm.Message({
-    collapseKey: 'demo',
-    delayWhileIdle: true,
-    timeToLive: 3,
-    data: {
-        'test': 'message1',
-        key2: 'message2'
-    }
-});
-
-
-message.collapseKey = 'demo';
-message.delayWhileIdle = true;
-message.timeToLive = 3;
-message.dryRun = false;
-
-var sender = new gcm.Sender('AIzaSyDSdZlLQhrXQCM6bpLoY-XPCEIXLcg88Wc');
-
-var registrationIds = [];
-registrationIds.push('APA91bG2uIbWZxkxrX-OFJBvEOFaozx694mplnzcVl7HE4RHo6cmlRbdjF3daJAgSMDtCVAlGQEdGBcjPC-J6tb-7lfaT9H2vvD48c2-88kAHdqXpEh5e4aRjsdvjhB7UOylnNtXIzXIrlAEI5sCT3a-JlNNwJw36w');
-registrationIds.push('APA91bHSPJrS3KZ0GANX1-sqb4V9EV7V-v1DkMV2_I_G7OZIfJD3gqxY_dwsvPVk6wH0wtXMxVKiAyRMJD7JcVMc5PR6BPIPXYiYF8hfKFe2wDC_Klf_5dn_PdPLjJQQ9X_KBroqpOoE5Hr3o1-ezzUB2JMCCc4tjA');
-
-sender.sendNoRetry(message, registrationIds, function(err, result) {
-  if(err) console.error(err);
-  else    console.log(result);
-});
-
-
-
 module.exports = app;

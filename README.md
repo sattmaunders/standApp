@@ -24,3 +24,8 @@ End Points:
 'workout/end'
 - type: POST
 -- userId: [email]
+
+
+## FOR TESTING
+### /gcmtest/:key/:content
+A get to this URL is going to broadcast the GCM message {key: :key, content: :content}

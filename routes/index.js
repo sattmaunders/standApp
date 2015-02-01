@@ -4,9 +4,9 @@ var request = require('request');
 
 /** GCM Config **/
 var gcm = require('node-gcm');
-var apiKey = 'AIzaSyDSdZlLQhrXQCM6bpLoY-XPCEIXLcg88Wc';
-var projectId = '665143645608';
-var uri = 'https://android.googleapis.com/gcm/notification';
+var apiKey = "AIzaSyDSdZlLQhrXQCM6bpLoY-XPCEIXLcg88Wc";
+var projectId = 665143645608;
+var uri = "https://android.googleapis.com/gcm/notification";
 
 var sender = new gcm.Sender(apiKey);
 var registrationIds = [];
@@ -39,36 +39,33 @@ router.get('/gcmtest/:key/:content', function(req, res) {
 
 /** GCM **/
 router.post('/register', function(req, res) {
+
   var keyName = 'standapp-' + req.body.userId;
 
-  request.post({
-    uri: uri,
-
-    request: {
+  var requestOptions = {
+    url: uri,
+    header: {
+      "content-type": "application/json",
+      "project_id": projectId,
+      "Authorization" : "key=" + apiKey
+    },
+    json: {
       "operation": "create",
       "notification_key_name": keyName,
-      "notification_key": "aUniqueKey",
       "registration_ids": [req.body.regId]
-    },
-
-    headers: {
-      'content-type': "application/json",
-      'project_id' : projectId,
-      'Authorization' : 'key=' + apiKey
     }
+  };
 
+  console.log('options', requestOptions);
 
-  }, function(err, response, body) {
-    var result = {
-      'err': err,
-      'response': response,
-      'body': body
-    };
+  var requestCallback = function(error, response, body) {
+    if (!error && response.statusCode == 200) {
+      var info = JSON.parse(body);
+    }
+    res.send(response);
+  };
 
-    console.log('result', result);
-
-    res.send(result);
-  });
+  request(requestOptions, requestCallback)
 });
 
 /* GET home page. */

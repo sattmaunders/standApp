@@ -1,12 +1,13 @@
 var express = require('express');
-var router = express.Router();
 var request = require('request');
+var router = express.Router();
 
 /** GCM Config **/
 var gcm = require('node-gcm');
+
+var notificationUrl = "https://android.googleapis.com/gcm/notification";
 var apiKey = "AIzaSyDSdZlLQhrXQCM6bpLoY-XPCEIXLcg88Wc";
 var projectId = 665143645608;
-var uri = "https://android.googleapis.com/gcm/notification";
 
 var sender = new gcm.Sender(apiKey);
 var registrationIds = [];
@@ -42,30 +43,29 @@ router.post('/register', function(req, res) {
 
   var keyName = 'standapp-' + req.body.userId;
 
+  var requestBody = JSON.stringify({
+    "operation": "create",
+    "notification_key_name": keyName,
+    "registration_ids": [req.body.regId]
+  });
+
   var requestOptions = {
-    url: uri,
+    method: 'POST',
+    url: notificationUrl,
     header: {
-      "content-type": "application/json",
-      "project_id": projectId,
+      "Content-Type": "application/json",
+      "project_id": projectId.valueOf(),
       "Authorization" : "key=" + apiKey
     },
-    json: {
-      "operation": "create",
-      "notification_key_name": keyName,
-      "registration_ids": [req.body.regId]
-    }
+    body: requestBody
   };
-
-  console.log('options', requestOptions);
 
   var requestCallback = function(error, response, body) {
-    if (!error && response.statusCode == 200) {
-      var info = JSON.parse(body);
-    }
-    res.send(response);
+    return error ? res.send(error) : res.send(response.body);
   };
 
-  request(requestOptions, requestCallback)
+  console.log(requestOptions);
+  request(requestOptions, requestCallback);
 });
 
 /* GET home page. */

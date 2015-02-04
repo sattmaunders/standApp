@@ -65,7 +65,7 @@ function extractRegIds(users) {
 };
 
 exports.message = function (req, res) {
-  var userId = req.body.userId;
+  var userId = req.params.userId;
   var content = req.body.content;
 
   var message = new gcm.Message({

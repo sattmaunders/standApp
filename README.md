@@ -16,9 +16,9 @@ heroku git:remote -a standapp-server
 - type: POST
 - params: {userId: [email], regId: [registration_id from Google]}
 
-### /user/message
+### /user/:userId/message
 - type: POST
-- params: {userId: [email], content: [message to send to all registered devices]}
+- params: {content: [message to send to all registered devices]}
 
 ### /user/:userId
 - type: DELETE

@@ -12,7 +12,7 @@ heroku git:remote -a standapp-server
 
 
 ## END POINTS
-### /user/register
+### /user/
 - type: POST
 - params: {userId: [email], regId: [registration_id from Google]}
 

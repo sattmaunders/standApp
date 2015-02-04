@@ -25,6 +25,10 @@ exports.index = function(req, res) {
  * Creates a new user
  */
 exports.create = function (req, res, next) {
+  if (!req.body || !req.body.userId) {
+    res.send(400);
+  }
+  
   var newUser = new User(req.body);
   newUser.save(function(err, user) {
     res.send(newUser);

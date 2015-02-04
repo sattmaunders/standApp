@@ -26,7 +26,7 @@ exports.index = function(req, res) {
  */
 exports.create = function (req, res, next) {
   if (!req.body || !req.body.userId) {
-    res.send(400);
+    res.status(400).end();
   }
   
   var newUser = new User(req.body);

@@ -9,14 +9,17 @@ git push heroku master
 Setup Heroku:
 heroku git:remote -a standapp-server
 
-TODO:
-End Points:
-'/register'
-- type: POST
-- params: 
--- userId: [email]
--- regId: registration ID from GCM
 
+## END POINTS
+### /users/register
+- type: POST
+- params: {userId: [email], regId: [registration_id from Google]}
+
+### /users/message
+- type: POST
+- params: {userId: [email], content: [message to send to all registered devices]}
+
+TODO:
 '/workout/start'
 - type: POST
 -- userId: [email]

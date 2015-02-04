@@ -1,6 +1,9 @@
 'use strict';
 
-var User = require('./user.model.js');
+var User = require('./user.model.js'),
+    gcm = require('node-gcm'),
+    config = require('../../config'),
+    sender = new gcm.Sender(config.apiKey);
 
 var validationError = function(res, err) {
   return res.json(422, err);
@@ -48,4 +51,41 @@ exports.destroy = function(req, res) {
     if(err) return res.send(500, err);
     return res.send(204);
   });
+};
+
+function extractRegIds(users) {
+  var regIds = [];
+  
+  users.forEach( function(user) {
+    regIds.push(user.regId);
+  });
+  
+  return regIds;
+};
+
+exports.message = function (req, res) {
+  var userId = req.body.userId;
+  var content = req.body.content;
+
+  var message = new gcm.Message({
+    delayWhileIdle: true,
+    timeToLive: 3,
+    data: {
+      'content': content
+    }
+  });
+  
+  User.find({ userId: userId }, function(err, users) {
+    var registrationIds = extractRegIds(users);
+    console.log('regIds:', registrationIds);
+    
+    if (!err && registrationIds.length > 0) {            
+      sender.sendNoRetry(message, registrationIds, function(err, result) {
+      if(err) { res.send('Error :-('); }
+      else    { res.send('Message sent: {userId: ' + userId + ', content: ' + content + '} !!'); }
+      });
+    } else {
+      res.send('No registration ids found for userId:' + userId);
+    }        
+  });    
 };

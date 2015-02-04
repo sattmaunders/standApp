@@ -5,8 +5,7 @@ var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
   userId: String,
-  chromeRegId: String,
-  androidRegId: String
+  regId: String,  
 });
 
 module.exports = mongoose.model('User', UserSchema);

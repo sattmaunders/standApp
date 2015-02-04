@@ -1,6 +1,6 @@
-var express = require('express');
-var request = require('request');
-var router = express.Router();
+var express = require('express'),
+    request = require('request'),
+    router = express.Router();
 
 /** GCM Config **/
 var gcm = require('node-gcm');
@@ -37,36 +37,6 @@ router.get('/gcmtest/:key/:content', function(req, res) {
     });
 });
 
-
-/** GCM **/
-router.post('/register', function(req, res) {
-
-  var keyName = 'standapp-' + req.body.userId;
-
-  var requestBody = JSON.stringify({
-    "operation": "create",
-    "notification_key_name": keyName,
-    "registration_ids": [req.body.regId]
-  });
-
-  var requestOptions = {
-    method: 'POST',
-    url: notificationUrl,
-    header: {
-      "Content-Type": "application/json",
-      "project_id": projectId.valueOf(),
-      "Authorization" : "key=" + apiKey
-    },
-    body: requestBody
-  };
-
-  var requestCallback = function(error, response, body) {
-    return error ? res.send(error) : res.send(response.body);
-  };
-
-  console.log(requestOptions);
-  request(requestOptions, requestCallback);
-});
 
 /* GET home page. */
 router.get('/', function(req, res) {

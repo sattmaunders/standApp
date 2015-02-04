@@ -26,7 +26,7 @@ heroku git:remote -a standapp-server
 ### /user/:userId
 - type: GET
 
-TODO:
+## TODO:
 '/workout/start'
 - type: POST
 -- userId: [email]

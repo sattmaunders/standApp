@@ -1,5 +1,6 @@
 # standApp
 
+## SETUP
 To run the app:
 grunt
 
@@ -11,13 +12,19 @@ heroku git:remote -a standapp-server
 
 
 ## END POINTS
-### /users/register
+### /user/register
 - type: POST
 - params: {userId: [email], regId: [registration_id from Google]}
 
-### /users/message
+### /user/message
 - type: POST
 - params: {userId: [email], content: [message to send to all registered devices]}
+
+### /user/:userId
+- type: DELETE
+
+### /user/:userId
+- type: GET
 
 TODO:
 '/workout/start'

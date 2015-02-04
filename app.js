@@ -40,12 +40,7 @@ app.use(function(req, res, next) {
 });
 
 app.use('/', routes);
-app.use('/users', require('./routes/user'));
-
-app.post('/register',function(request,response){
-  // get email, and add to notification
-  response.send('register');
-});
+app.use('/user', require('./routes/user'));
   
 app.post('/workout/start', function(request, response) {
   // using email send to gsm to broadcast 

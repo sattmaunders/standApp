@@ -11,14 +11,15 @@ var validationError = function(res, err) {
 
 /**
  * Get list of users
- * restriction: 'admin'
- */
+
 exports.index = function(req, res) {
-  User.find({}, '-salt -hashedPassword', function (err, users) {
+  User.find({}, function (err, users) {
     if(err) return res.send(500, err);
     res.json(200, users);
   });
 };
+
+ */
 
 /**
  * Creates a new user
@@ -36,10 +37,10 @@ exports.create = function (req, res, next) {
 exports.show = function (req, res, next) {
   var userId = req.params.userId;
 
-  User.findById(userId, function (err, user) {
+  User.find({userId: userId}, function (err, user) {
     if (err) return next(err);
     if (!user) return res.send(401);
-    res.json(user.profile);
+    res.json(user);
   });
 };
 
@@ -47,7 +48,7 @@ exports.show = function (req, res, next) {
  * Deletes a user
  */
 exports.destroy = function(req, res) {
-  User.findByIdAndRemove(req.params.userId, function(err, user) {
+  User.findOneAndRemove({userId: req.params.userId}, function(err, user) {
     if(err) return res.send(500, err);
     return res.send(204);
   });

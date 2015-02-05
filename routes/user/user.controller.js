@@ -30,9 +30,19 @@ exports.create = function (req, res, next) {
   }
   
   var newUser = new User(req.body);
-  newUser.save(function(err, user) {
-    res.send(newUser);
+  
+  User.find({userId: req.body.userId, regId: req.body.regId}, function(err, user) {
+    if (err) return next(err);
+    if (user.userId) {
+      return res.send(user);
+    } else {
+      newUser.save(function(err, user) {
+        res.send(newUser);
+      });
+    }
   });
+    
+  
 };
 
 /**

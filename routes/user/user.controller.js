@@ -79,9 +79,9 @@ exports.retrieve = function (req, res, next) {
 
   User.find({'config.email': req.query.email}, function (err, user) {
     if (err) { return next(err); }
-    if (!user) { return res.send(404); }
+    if (!user || user.length != 1) { return res.send(404); }
 
-    res.json(user);
+    res.json(user[0]);
 
   });
 };

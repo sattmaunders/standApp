@@ -1,7 +1,6 @@
 'use strict';
 
 var User = require('./user.model.js'),
-    extend = require('node.extend'),
     gcm = require('node-gcm'),
     config = require('../../config'),
     sender = new gcm.Sender(config.apiKey);

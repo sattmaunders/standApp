@@ -86,6 +86,30 @@ exports.retrieve = function (req, res, next) {
   });
 };
 
+
+
+/**
+ * Get a single user by email
+ */
+exports.updatePreferences = function (req, res, next) {
+  console.log(req.params, req.body)
+  if (!req.params || !req.params.userId || !req.body || !req.body.preferences) { return res.status(400).end(); }
+
+  User.findById(req.params.userId, function(err, user) {
+    if (err) { return next(err); }
+    if (!user) { return res.send(404); }
+
+    user.preferences =req.body.preferences;
+    user.save(function(err, newUser) {
+      if (err) { return next(err); }
+      res.json(newUser);
+    });
+
+  });
+};
+
+
+
 /**
  * Deletes a user
  */

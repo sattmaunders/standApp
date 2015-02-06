@@ -76,21 +76,31 @@ heroku git:remote -a standapp-server
 - body: {email: [email]}
 - response
  - 200: User created
+ - 400: email missing
  - 409: Email already used
 
-### /user/:id/gcmKey/:key
+### /user/:userId/gcmKey/:key
 - type: POST
 - response
  - 200: GCM key added
  - 302: GCM key already exists
+ - 400: userId or gcmKey
  - 404: User not found
 
 ### /user?email=[email]
- - type: GET
- - response
-  - 200: Returns the user
-  - 404: User not found
+- type: GET
+- response
+ - 200: Returns the user
+ - 400: email missing
+ - 404: User not found
 
+### /user/:userId/preferences
+- type: PUT
+- body: {preferences: [preferences]}
+- response
+ - 200: Returns the updated user
+ - 400: userId or preferences missing
+ - 404: User not found
 
 ### /user/:userId/message
 - type: POST

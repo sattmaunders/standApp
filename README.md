@@ -83,7 +83,7 @@ heroku git:remote -a standapp-server
 - type: POST
 - response
  - 200: GCM key added or already there
- - 400: userId or gcmKey
+ - 400: userId or gcmKey missing
  - 404: User not found
 
 ### /user?email=[email]
@@ -99,6 +99,15 @@ heroku git:remote -a standapp-server
 - response
  - 200: Returns the updated user
  - 400: userId or preferences missing
+ - 404: User not found
+
+### /user/:userId/history/:historyKey
+- type: PUT
+- params: [userId] and [historyKey] which is a path to an history property. Eg: weeks.current.steps
+- body: {history: []}
+- response
+ - 200: updated
+ - 400: userId or historyKey or history missing
  - 404: User not found
 
 ### /user/:userId/message

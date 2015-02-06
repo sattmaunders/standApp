@@ -11,7 +11,7 @@ Setup Heroku:
 heroku git:remote -a standapp-server
 
 ## User Model
-
+```json
 {
     "user": {
         "config": {
@@ -65,7 +65,7 @@ heroku git:remote -a standapp-server
         }
     }
 }
-
+```
 
 ## END POINTS
 ### /user/

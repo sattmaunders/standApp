@@ -78,9 +78,9 @@ exports.get = function (req, res, next) {
     User.findById(req.params.userId, function(err, user) {
 
         if (err) { return next(err); }
-        if (!user || user.length != 1) { return res.send(404); }
+        if (!user) { return res.send(404); }
 
-        res.json(newUser);
+        res.json(user);
     });
 };
 

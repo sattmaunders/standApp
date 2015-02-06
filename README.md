@@ -83,6 +83,12 @@ heroku git:remote -a standapp-server
  - 302: GCM key already exists
  - 404: User not found
 
+### /user?email=[email]
+ - type: GET
+ - response
+  - 200: Returns the user
+  - 404: User not found
+
 
 ### /user/:userId/message
 - type: POST

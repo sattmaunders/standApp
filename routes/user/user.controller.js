@@ -46,9 +46,12 @@ exports.create = function (req, res, next) {
 };
 
 
+/**
+ * Add GCM Key for user
+ */
 exports.addGcmKey = function (req, res, next) {
-  console.log(req)
-  if (!req.body || !req.params.userId || !req.params.gcmKey) { return res.status(400).end(); }
+
+  if (!req.params || !req.params.userId || !req.params.gcmKey) { return res.status(400).end(); }
 
   User.findById(req.params.userId, function(err, user) {
 
@@ -68,15 +71,18 @@ exports.addGcmKey = function (req, res, next) {
 
 
 /**
- * Get a single user
+ * Get a single user by email
  */
-exports.show = function (req, res, next) {
-  var userId = req.params.userId;
+exports.retrieve = function (req, res, next) {
 
-  User.find({userId: userId}, function (err, user) {
-    if (err) return next(err);
-    if (!user) return res.send(401);
+  if (!req.params || !req.params.email) { return res.status(400).end(); }
+
+  User.find({'config.email': req.params.email}, function (err, user) {
+    if (err) { return next(err); }
+    if (!user) { return res.send(404); }
+
     res.json(user);
+
   });
 };
 

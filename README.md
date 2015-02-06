@@ -86,6 +86,12 @@ heroku git:remote -a standapp-server
  - 400: userId or gcmKey missing
  - 404: User not found
 
+### /user/:userId
+- type: GET
+- response
+ - 200: Returns the user
+ - 404: User not found
+
 ### /user?email=[email]
 - type: GET
 - response

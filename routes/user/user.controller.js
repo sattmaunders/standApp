@@ -1,6 +1,7 @@
 'use strict';
 
 var User = require('./user.model.js'),
+    extend = require('node.extend'),
     gcm = require('node-gcm'),
     config = require('../../config'),
     sender = new gcm.Sender(config.apiKey);
@@ -21,28 +22,29 @@ exports.index = function(req, res) {
 
  */
 
+
+
 /**
  * Creates a new user
  */
 exports.create = function (req, res, next) {
-  if (!req.body || !req.body.userId) {
-    res.status(400).end();
-  }
-  
-  var newUser = new User(req.body);
-  
-  User.find({userId: req.body.userId, regId: req.body.regId}, function(err, user) {
-    if (err) return next(err);
-    if (user.userId) {
-      return res.send(user);
-    } else {
-      newUser.save(function(err, user) {
-        res.send(newUser);
-      });
-    }
+
+  if (!req.body || !req.body.email) { return res.status(400).end(); }
+
+  var requestedEmail = req.body.email;
+  User.find({'config.email': requestedEmail}, function(err, user) {
+
+    if (err) { return next(err); }
+
+    // Checks if the user exists
+    if (user.length) { return res.status(409).end(); }
+
+    // Creates
+    new User({config: {email: requestedEmail}}).save(function(err, user) { res.json(user); });
   });
-    
-  
+
+
+
 };
 
 /**

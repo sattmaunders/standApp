@@ -14,6 +14,7 @@ heroku git:remote -a standapp-server
 ```json
 {
     "user": {
+        "_id": 0,
         "config": {
             "email": "",
             "gcmKeys": [],
@@ -70,7 +71,9 @@ heroku git:remote -a standapp-server
 ## END POINTS
 ### /user/
 - type: POST
-- params: {userId: [email], regId: [registration_id from Google]}
+- params: {email: [email]}
+- 200 Success
+- 409 Conflict
 
 ### /user/:userId/message
 - type: POST

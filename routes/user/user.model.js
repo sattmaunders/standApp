@@ -10,19 +10,25 @@ var UserSchema = new Schema({
       fitDataSources: { steps: String,  onfoot: String }
   },
   preferences: {
-      breaks: { frequency: {type: Number, default: 30},  duration: {type: Number, default: 5} },
+      breaks: {frequency: {type: Number, default: 30}, duration: {type: Number, default: 5}},
       work: {
-        hours: { start: {type: String, default: '09:00'},  end: {type: String, default: '17:00'} },
-        days: [{type: Boolean, default: [true, true, true, true, true, false, false]} ]
+          hours: {start: {type: String, default: '09:00'}, end: {type: String, default: '17:00'}},
+          days: [{type: Boolean, default: [true, true, true, true, true, false, false]}]
       },
       goals: {
-        daily: { steps: {type: Number, default: 2000}, onfoot: {type: Number, default: 40}, breaks: {type: Number, default: 8} }
-      },
-      weeks: {
-        best: { steps: [Number], onfoot: [Number] },
-        previous: { steps: [Number], onfoot: [Number] },
-        current: { steps: [Number],  onfoot: [Number] }
+          daily: {
+              steps: {type: Number, default: 2000},
+              onfoot: {type: Number, default: 40},
+              breaks: {type: Number, default: 8}
+          }
       }
+  },
+    history: {
+        weeks: {
+            best: { steps: [Number], onfoot: [Number] },
+            previous: { steps: [Number], onfoot: [Number] },
+            current: { steps: [Number],  onfoot: [Number] }
+        }
     }
 });
 

@@ -48,7 +48,9 @@ heroku git:remote -a standapp-server
                     "steps": 150,
                     "onfoot": 40
                 }
-            },
+            }
+        },
+        "history": {
             "weeks": {
                 "best": {
                     "steps": [],

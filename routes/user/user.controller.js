@@ -75,9 +75,9 @@ exports.addGcmKey = function (req, res, next) {
  */
 exports.retrieve = function (req, res, next) {
 
-  if (!req.params || !req.params.email) { return res.status(400).end(); }
+  if (!req.query || !req.query.email) { return res.status(400).end(); }
 
-  User.find({'config.email': req.params.email}, function (err, user) {
+  User.find({'config.email': req.query.email}, function (err, user) {
     if (err) { return next(err); }
     if (!user) { return res.send(404); }
 

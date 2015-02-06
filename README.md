@@ -10,6 +10,62 @@ git push heroku master
 Setup Heroku:
 heroku git:remote -a standapp-server
 
+## User Model
+
+{
+    "user": {
+        "config": {
+            "email": "",
+            "gcmKeys": [],
+            "fitDataSources": {
+                "steps": "",
+                "onfoot": ""
+            }
+        },
+        "preferences": {
+            "breaks": {
+                "frequency": 5,
+                "duration": 5
+            },
+            "work": {
+                "hours": {
+                    "start": "09:00",
+                    "end": "17:00"
+                },
+                "days": [
+                    true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    false,
+                    false
+                ]
+            },
+            "goals": {
+                "daily": {
+                    "steps": 150,
+                    "onfoot": 40
+                }
+            },
+            "weeks": {
+                "best": {
+                    "steps": [],
+                    "onfoot": []
+                },
+                "previous": {
+                    "steps": [],
+                    "onfoot": []
+                },
+                "current": {
+                    "steps": [],
+                    "onfoot": []
+                }
+            }
+        }
+    }
+}
+
 
 ## END POINTS
 ### /user/

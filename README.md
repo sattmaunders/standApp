@@ -82,8 +82,7 @@ heroku git:remote -a standapp-server
 ### /user/:userId/gcmKey/:key
 - type: POST
 - response
- - 200: GCM key added
- - 302: GCM key already exists
+ - 200: GCM key added or already there
  - 400: userId or gcmKey
  - 404: User not found
 

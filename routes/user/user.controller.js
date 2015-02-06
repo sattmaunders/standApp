@@ -43,9 +43,29 @@ exports.create = function (req, res, next) {
     new User({config: {email: requestedEmail}}).save(function(err, user) { res.json(user); });
   });
 
-
-
 };
+
+
+exports.addGcmKey = function (req, res, next) {
+  console.log(req)
+  if (!req.body || !req.params.userId || !req.params.gcmKey) { return res.status(400).end(); }
+
+  User.findById(req.params.userId, function(err, user) {
+
+    if (err) { return next(err); }
+    if (!user) { return res.status(404).end(); }
+
+    if(user.config.gcmKeys.indexOf(req.params.gcmKey) != -1 ) {return res.status(302).end();}
+
+    user.config.gcmKeys.push(req.params.gcmKey);
+    user.save(function(err, newUser) {
+      if (err) { return next(err); }
+      res.json(newUser);
+    });
+
+  });
+};
+
 
 /**
  * Get a single user

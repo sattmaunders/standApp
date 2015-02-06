@@ -69,11 +69,20 @@ heroku git:remote -a standapp-server
 ```
 
 ## END POINTS
-### /user/
+### /user
 - type: POST
-- params: {email: [email]}
-- 200 Success
-- 409 Conflict
+- body: {email: [email]}
+- response
+ - 200: User created
+ - 409: Email already used
+
+### /user/:id/gcmKey/:key
+- type: POST
+- response
+ - 200: GCM key added
+ - 302: GCM key already exists
+ - 404: User not found
+
 
 ### /user/:userId/message
 - type: POST

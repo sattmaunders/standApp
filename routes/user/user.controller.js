@@ -68,6 +68,22 @@ exports.addGcmKey = function (req, res, next) {
   });
 };
 
+/**
+ * Get a single user by id
+ */
+exports.get = function (req, res, next) {
+
+    if (!req.params || !req.params.userId) { return res.status(400).end(); }
+
+    User.findById(req.params.userId, function(err, user) {
+
+        if (err) { return next(err); }
+        if (!user || user.length != 1) { return res.send(404); }
+
+        res.json(newUser);
+    });
+};
+
 
 /**
  * Get a single user by email

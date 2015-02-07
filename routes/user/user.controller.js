@@ -166,6 +166,9 @@ function extractRegIds(users) {
 };
 
 exports.message = function (req, res) {
+
+  if (!req.params || !req.params.userId || !req.body || !req.body.content) { return res.status(400).end(); }
+
   var userId = req.params.userId;
   var content = req.body.content;
 
@@ -176,18 +179,14 @@ exports.message = function (req, res) {
       'content': content
     }
   });
-  
-  User.find({ userId: userId }, function(err, users) {
-    var registrationIds = extractRegIds(users);
-    console.log('regIds:', registrationIds);
-    
-    if (!err && registrationIds.length > 0) {            
-      sender.sendNoRetry(message, registrationIds, function(err, result) {
+
+  User.findById(req.params.userId, function(err, user) {
+    if (err) { return next(err); }
+    if (!user) { return res.send(404); }
+
+    sender.sendNoRetry(message, user.config.gcmKeys, function(err) {
       if(err) { res.send('Error :-('); }
-      else    { res.send('Message sent: {userId: ' + userId + ', content: ' + content + '} !!'); }
-      });
-    } else {
-      res.send('No registration ids found for userId:' + userId);
-    }        
+      else    { res.send('Message sent: {userId: ' + user.config.email + ', content: ' + content + '} !!'); }
+    });
   });    
 };

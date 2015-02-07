@@ -173,6 +173,7 @@ exports.message = function (req, res) {
   var content = req.body.content;
 
   var message = new gcm.Message({
+    collapseKey: 'xas',
     delayWhileIdle: true,
     timeToLive: 3,
     data: {
@@ -185,6 +186,8 @@ exports.message = function (req, res) {
     if (!user) { return res.send(404); }
 
     sender.sendNoRetry(message, user.config.gcmKeys, function(err) {
+      console.log('-------', err);
+      console.log('xxxxxxx', user.config.gcmKeys);
       if(err) { res.send('Error :-('); }
       else    { res.send('Message sent: {userId: ' + user.config.email + ', content: ' + content + '} !!'); }
     });

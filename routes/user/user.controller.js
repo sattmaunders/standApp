@@ -174,7 +174,7 @@ exports.message = function (req, res) {
 
   var message = new gcm.Message({
     collapseKey: 'xas',
-    delayWhileIdle: true,
+    delayWhileIdle: false,
     timeToLive: 3,
     data: {
       'content': content

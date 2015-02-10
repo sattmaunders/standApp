@@ -1,6 +1,4 @@
-# standApp
-
-## SETUP
+# SETUP
 To run the app:
 grunt
 
@@ -10,7 +8,7 @@ git push heroku master
 Setup Heroku:
 heroku git:remote -a standapp-server
 
-## User Model
+# User Model
 ```json
 {
     "user": {
@@ -70,8 +68,8 @@ heroku git:remote -a standapp-server
 }
 ```
 
-## END POINTS
-### /user
+# END POINTS
+## /user
 - type: POST
 - body: {email: [email]}
 - response
@@ -79,27 +77,27 @@ heroku git:remote -a standapp-server
  - 400: email missing
  - 409: Email already used
 
-### /user/:userId/gcmKey/:key
+## /user/:userId/gcmKey/:key
 - type: POST
 - response
  - 200: GCM key added or already there
  - 400: userId or gcmKey missing
  - 404: User not found
 
-### /user/:userId
+## /user/:userId
 - type: GET
 - response
  - 200: Returns the user
  - 404: User not found
 
-### /user?email=[email]
+## /user?email=[email]
 - type: GET
 - response
  - 200: Returns the user
  - 400: email missing
  - 404: User not found
 
-### /user/:userId/preferences
+## /user/:userId/preferences
 - type: PUT
 - body: {preferences: [preferences]}
 - response
@@ -107,7 +105,7 @@ heroku git:remote -a standapp-server
  - 400: userId or preferences missing
  - 404: User not found
 
-### /user/:userId/history/:historyKey
+## /user/:userId/history/:historyKey
 - type: PUT
 - params: [userId] and [historyKey] which is a path to an history property. Eg: weeks.current.steps
 - body: {history: []}
@@ -116,26 +114,22 @@ heroku git:remote -a standapp-server
  - 400: userId or historyKey or history missing
  - 404: User not found
 
-### /user/:userId/message
+## /user/:userId/message
 - type: POST
 - params: {content: [message to send to all registered devices]}
 
-### /user/:userId
+## /user/:userId
 - type: DELETE
 
-### /user/:userId
+## /user/:userId
 - type: GET
 
-## TODO:
-'/workout/start'
-- type: POST
--- userId: [email]
+#GCM Messages
+## Start exercise (TODO)
+- key:
+- content:
 
-'workout/end'
-- type: POST
--- userId: [email]
+## End exercise (TODO)
+- key:
+- content:
 
-
-## FOR TESTING
-### /gcmtest/:key/:content
-A get to this URL is going to broadcast the GCM message {key: :key, content: :content}

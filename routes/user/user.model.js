@@ -18,16 +18,16 @@ var UserSchema = new Schema({
       goals: {
           daily: {
               steps: {type: Number, default: 2000},
-              onfoot: {type: Number, default: 40},
+              onfoot: {type: Number, default: 2400},
               breaks: {type: Number, default: 8}
           }
       }
   },
     history: {
         weeks: {
-            best: { steps: [Number], onfoot: [Number] },
-            previous: { steps: [Number], onfoot: [Number] },
-            current: { steps: [Number],  onfoot: [Number] }
+            best: { steps: [Number], onfoot: [Number], breaks: [Number] },
+            previous: { steps: [Number], onfoot: [Number], breaks: [Number] },
+            current: { steps: [Number],  onfoot: [Number], breaks: [Number] }
         }
     }
 });

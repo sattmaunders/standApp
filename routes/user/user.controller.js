@@ -171,7 +171,7 @@ exports.message = function (req, res) {
 
   var userId = req.params.userId;
   var content = req.body.content;
-
+  
   var message = new gcm.Message({
     collapseKey: 'xas',
     delayWhileIdle: false,

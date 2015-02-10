@@ -69,6 +69,9 @@ Setup Heroku: **heroku git:remote -a standapp-server**
 }
 ```
 
+**Note**: Weeks start on Sundays ([Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]).
+For instance, to find how many steps have been done last Tuesday you have to read **user.history.weeks.previous.steps[2]**
+
 # END POINTS
 ## /user
 - type: POST

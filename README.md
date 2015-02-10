@@ -1,15 +1,9 @@
 # SETUP
-To run the app:
----------------
-**grunt**
+To run the app: **grunt**
 
-To deploy to heroku:
---------------------
-**git push heroku master**
+To deploy to heroku: **git push heroku master**
 
-Setup Heroku:
--------------
-**heroku git:remote -a standapp-server**
+Setup Heroku: **heroku git:remote -a standapp-server**
 
 # User Model
 ```json
@@ -47,7 +41,7 @@ Setup Heroku:
             "goals": {
                 "daily": {
                     "steps": 2000,
-                    "onfoot": 40, // in minutes
+                    "onfoot": 40, /* in minutes */
                     "breaks": 8
                 }
             }

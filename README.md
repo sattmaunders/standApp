@@ -43,8 +43,9 @@ heroku git:remote -a standapp-server
             },
             "goals": {
                 "daily": {
-                    "steps": 150,
+                    "steps": 2000,
                     "onfoot": 40
+                    "breaks": 8
                 }
             }
         },
@@ -52,15 +53,18 @@ heroku git:remote -a standapp-server
             "weeks": {
                 "best": {
                     "steps": [],
-                    "onfoot": []
+                    "onfoot": [],
+                    "breaks": []
                 },
                 "previous": {
                     "steps": [],
-                    "onfoot": []
+                    "onfoot": [],
+                    "breaks": []
                 },
                 "current": {
                     "steps": [],
-                    "onfoot": []
+                    "onfoot": [],
+                    "breaks": []
                 }
             }
         }
